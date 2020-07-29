@@ -6,7 +6,7 @@
 /*   By: clauren <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 21:27:22 by clauren           #+#    #+#             */
-/*   Updated: 2020/07/23 22:46:34 by clauren          ###   ########.fr       */
+/*   Updated: 2020/07/25 17:00:24 by clauren          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static	int			print_s(t_params *params, va_list *ap)
 
 int					print(t_params *params, va_list *ap)
 {
+	if (params->precision == 0)
+		params->flags |= FL_Z_BLOCK;
 	if (params->type == 'c' || params->type == '%')
 		return (print_c(params, ap));
 	if (params->type == 's')

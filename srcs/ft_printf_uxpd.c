@@ -6,7 +6,7 @@
 /*   By: clauren <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 21:17:10 by clauren           #+#    #+#             */
-/*   Updated: 2020/07/24 13:24:02 by clauren          ###   ########.fr       */
+/*   Updated: 2020/07/27 13:27:25 by clauren          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static	int			print_uxp_h(t_params *params, char *p, char f, char pref)
 			? params->precision - lens.str_len : 0;
 	if (pref)
 		lens.str_len += 2;
-	lens.filler_len = (params->width > lens.str_len)
+	lens.filler_len = (params->width > (lens.str_len + lens.zero_len))
 			? params->width - lens.str_len - lens.zero_len : 0;
 	if (f == '0' && pref && ft_putchar('0'))
 		ft_putchar(pref);
@@ -91,7 +91,7 @@ static	int			print_uxp_h(t_params *params, char *p, char f, char pref)
 		print_filler(f, lens.filler_len);
 	if (f == ' ' && pref && ft_putchar('0'))
 		ft_putchar(pref);
-	if (lens.str_len < params->precision)
+	if (lens.str_len <= params->precision)
 		print_filler('0', lens.zero_len);
 	ft_putstr(p);
 	if (lens.str_len < params->width && (params->flags & FL_MINUS))
@@ -106,7 +106,8 @@ int					print_uxp(t_params *params, va_list *ap, int low, int base)
 	char	f;
 	char	pref;
 
-	f = (params->flags & FL_ZERO && params->precision <= 0) ? '0' : ' ';
+	f = (params->flags & FL_ZERO && params->precision <= 0
+				&& !(params->flags & FL_Z_BLOCK)) ? '0' : ' ';
 	pref = (char)NULL;
 	if (params->type == 'p' && (pref = 'x'))
 		p = ft_ltoa_base(va_arg(*ap, unsigned long), base, low);

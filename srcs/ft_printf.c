@@ -6,7 +6,7 @@
 /*   By: clauren <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 21:30:56 by clauren           #+#    #+#             */
-/*   Updated: 2020/07/24 13:37:10 by clauren          ###   ########.fr       */
+/*   Updated: 2020/07/27 14:09:13 by clauren          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@ static	void		p_flags(char **fmt, t_params *params)
 	while (1)
 	{
 		if (**fmt == '-')
+		{
 			params->flags |= FL_MINUS;
+			params->flags &= (~FL_ZERO);
+		}
 		else if (**fmt == '0')
-			params->flags |= FL_ZERO;
+		{
+			if (!(params->flags & FL_MINUS))
+				params->flags |= FL_ZERO;
+		}
 		else if (**fmt == '+')
 			params->flags |= FL_PLUS;
 		else if (**fmt == ' ')
@@ -102,10 +108,10 @@ static	int			parse(char *fmt, t_params *params, va_list *ap)
 			continue;
 		}
 		fmt++;
-		params->width = (int)NULL;
+		params->width = 0;
 		params->flags = FL_NONE;
 		params->precision = -1;
-		params->type = (char)NULL;
+		params->type = ' ';
 		p_flags(&fmt, params);
 		p_width(&fmt, params, ap);
 		if (p_precision(&fmt, params, ap) || ((temp = print(params, ap)) == -1))
@@ -115,14 +121,14 @@ static	int			parse(char *fmt, t_params *params, va_list *ap)
 	return (len);
 }
 
-int					ft_printf(char *fmt, ...)
+int					ft_printf(const char *fmt, ...)
 {
 	va_list		ap;
 	int			len;
 	t_params	params;
 
 	va_start(ap, fmt);
-	len = parse(fmt, &params, &ap);
+	len = parse((char *)fmt, &params, &ap);
 	va_end(ap);
 	return (len);
 }

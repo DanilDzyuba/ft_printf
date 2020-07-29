@@ -6,7 +6,7 @@
 /*   By: clauren <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 22:07:40 by clauren           #+#    #+#             */
-/*   Updated: 2020/07/24 00:09:30 by clauren          ###   ########.fr       */
+/*   Updated: 2020/07/25 15:18:45 by clauren          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FT_PRINTF_FT_PRINTF_H
 
 # include <stdlib.h>
-# include <stdio.h>
 # include <unistd.h>
 # include <stdarg.h>
 
@@ -52,5 +51,5 @@ int					print_d(t_params *params, va_list *ap);
 int					print_uxp(t_params *params, va_list *ap, int low, int base);
 int					print(t_params *params, va_list *ap);
 char				*ft_ltoa_base(long long n, int base, int low);
-int					ft_printf(char *fmt, ...);
+int					ft_printf(const char *fmt, ...);
 #endif
